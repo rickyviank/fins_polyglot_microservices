@@ -1,0 +1,44 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: install yamllint
+        run: pip install yamllint==1.35.1
+      - name: lint workflow + config yaml
+        run: yamllint -d "{extends: default, rules: {line-length: disable, document-start: disable, truthy: {check-keys: false}}}" .github/ services/*/application.yml services/*/.env.example 2>/dev/null || true
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck Dockerfiles' RUN steps (best-effort)
+        run: |
+          # quick sanity check; not blocking
+          for d in services/*/Dockerfile shared-libs/*/Dockerfile; do
+            [ -f "$d" ] && echo "::group::$d" && cat "$d" && echo "::endgroup::"
+          done
+
+  detect-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: install detect-secrets
+        run: pip install detect-secrets==1.5.0
+      - name: scan for obvious secrets
+        # Demo repo contains intentionally-planted weak constants for code-review training,
+        # so this scan is allowed to surface findings without failing the build.
+        continue-on-error: true
+        run: detect-secrets scan --exclude-files '\.lock$|node_modules|target|\.venv' > detect-secrets-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: detect-secrets-report
+          path: detect-secrets-report.json

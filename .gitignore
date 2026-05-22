@@ -1,0 +1,36 @@
+# Java
+target/
+*.class
+*.jar
+.idea/
+*.iml
+.mvn/
+
+# Node / TS
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.npm/
+coverage/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# OS / editor
+.DS_Store
+.vscode/
+*.swp
+
+# Logs / local data
+*.log
+local-data/

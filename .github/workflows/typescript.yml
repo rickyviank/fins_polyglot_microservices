@@ -1,0 +1,58 @@
+name: typescript
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/api-gateway/**"
+      - "services/notification-service/**"
+      - "services/customer-profile-service/**"
+      - "services/statement-service/**"
+      - "shared-libs/ts-commons/**"
+      - ".github/workflows/typescript.yml"
+  pull_request:
+    paths:
+      - "services/api-gateway/**"
+      - "services/notification-service/**"
+      - "services/customer-profile-service/**"
+      - "services/statement-service/**"
+      - "shared-libs/ts-commons/**"
+      - ".github/workflows/typescript.yml"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - api-gateway
+          - notification-service
+          - customer-profile-service
+          - statement-service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: services/${{ matrix.service }}/package.json
+
+      - name: build ts-commons (prereq)
+        working-directory: shared-libs/ts-commons
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
+      - name: install ${{ matrix.service }}
+        working-directory: services/${{ matrix.service }}
+        run: npm install --no-audit --no-fund
+
+      - name: typecheck ${{ matrix.service }}
+        working-directory: services/${{ matrix.service }}
+        run: npx tsc --noEmit
+
+      - name: test ${{ matrix.service }}
+        working-directory: services/${{ matrix.service }}
+        run: npm test --if-present

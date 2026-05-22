@@ -1,0 +1,17 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: account-service
+
+logging:
+  level:
+    root: INFO
+    com.finspoly.account: INFO
+
+finspoly:
+  audit:
+    url: http://localhost:8090
+  account:
+    default-currency: USD

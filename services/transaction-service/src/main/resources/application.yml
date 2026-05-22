@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: transaction-service
+
+logging:
+  level:
+    root: INFO
+    com.finspoly.txn: INFO
+
+finspoly:
+  audit:
+    url: http://localhost:8090
+  ledger:
+    url: http://localhost:8084
+  fraud:
+    url: http://localhost:9001
+  reversal:
+    window-hours: 24

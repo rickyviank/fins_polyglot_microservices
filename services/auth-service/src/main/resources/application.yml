@@ -1,0 +1,23 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: auth-service
+
+logging:
+  level:
+    root: INFO
+    com.finspoly.auth: INFO
+
+finspoly:
+  audit:
+    url: http://localhost:8090
+  jwt:
+    # secret is loaded from env JWT_SECRET in deployed envs; see JwtService for fallback
+    secret: ${JWT_SECRET:}
+    issuer: finspoly-auth
+    ttl-seconds: 3600
+    refresh-ttl-seconds: 86400
+  debug:
+    token: "let-me-in-please"

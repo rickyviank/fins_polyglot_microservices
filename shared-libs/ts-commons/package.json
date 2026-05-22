@@ -1,0 +1,20 @@
+{
+  "name": "@finspoly/ts-commons",
+  "version": "0.4.2",
+  "description": "Shared TypeScript utilities for fins-polyglot services",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0",
+    "@types/node": "^20.10.0"
+  }
+}

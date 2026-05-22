@@ -1,0 +1,56 @@
+name: shared-libs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "shared-libs/**"
+      - ".github/workflows/shared-libs.yml"
+  pull_request:
+    paths:
+      - "shared-libs/**"
+      - ".github/workflows/shared-libs.yml"
+
+jobs:
+  java-commons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - name: install java-commons
+        working-directory: shared-libs/java-commons
+        run: mvn -B install
+
+  ts-commons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: shared-libs/ts-commons/package.json
+      - name: build ts-commons
+        working-directory: shared-libs/ts-commons
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          npm test
+
+  py-commons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: install + test py-commons
+        working-directory: shared-libs/py-commons
+        run: |
+          pip install -e ".[dev]"
+          pytest -q

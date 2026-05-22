@@ -1,0 +1,15 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: ledger-service
+
+logging:
+  level:
+    root: INFO
+    com.finspoly.ledger: INFO
+
+finspoly:
+  audit:
+    url: http://localhost:8090

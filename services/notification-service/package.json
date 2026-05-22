@@ -1,0 +1,27 @@
+{
+  "name": "@finspoly/notification-service",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Email / SMS / push fanout for fins-polyglot",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@finspoly/ts-commons": "file:../../shared-libs/ts-commons",
+    "express": "^4.19.2",
+    "pino": "^8.19.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  }
+}

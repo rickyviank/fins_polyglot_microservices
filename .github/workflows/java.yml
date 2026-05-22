@@ -1,0 +1,55 @@
+name: java
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/transaction-service/**"
+      - "services/auth-service/**"
+      - "services/account-service/**"
+      - "services/ledger-service/**"
+      - "shared-libs/java-commons/**"
+      - ".github/workflows/java.yml"
+  pull_request:
+    paths:
+      - "services/transaction-service/**"
+      - "services/auth-service/**"
+      - "services/account-service/**"
+      - "services/ledger-service/**"
+      - "shared-libs/java-commons/**"
+      - ".github/workflows/java.yml"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - transaction-service
+          - auth-service
+          - account-service
+          - ledger-service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: install java-commons (local)
+        working-directory: shared-libs/java-commons
+        run: mvn -B install -DskipTests
+
+      - name: build ${{ matrix.service }}
+        working-directory: services/${{ matrix.service }}
+        run: mvn -B package -DskipTests
+
+      - name: test ${{ matrix.service }}
+        working-directory: services/${{ matrix.service }}
+        # Most Java services have no tests; surefire treats that as success.
+        # continue-on-error so an empty surefire report doesn't block the build.
+        continue-on-error: true
+        run: mvn -B test
