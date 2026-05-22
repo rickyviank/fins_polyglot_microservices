@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@finspoly/ts-commons": "file:../../shared-libs/ts-commons",
-    "express": "^4.19.2",
+    "express": "^5.2.1",
     "pino": "^8.19.0",
     "zod": "^3.22.4"
   },
