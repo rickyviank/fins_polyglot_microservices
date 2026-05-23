@@ -32,7 +32,7 @@ include = ["app*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "-ra -q"
+addopts = "-ra -q -m 'not integration and not e2e'"
 markers = [
     "integration: tests requiring docker-compose services",
     "e2e: end-to-end tests using Playwright",
