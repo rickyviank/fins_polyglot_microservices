@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+
+WORKDIR /build
+
+COPY shared-libs/py-commons /build/py-commons
+RUN pip install --no-cache-dir /build/py-commons
+
+WORKDIR /app
+COPY services/audit-log-service/pyproject.toml ./
+COPY services/audit-log-service/app ./app
+
+RUN pip install --no-cache-dir .
+
+EXPOSE 8089
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8089"]
