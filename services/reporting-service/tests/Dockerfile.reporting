@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+WORKDIR /build
+
+RUN apt-get update && apt-get install -y --no-install-recommends zip && rm -rf /var/lib/apt/lists/*
+
+COPY shared-libs/py-commons /build/py-commons
+RUN pip install --no-cache-dir /build/py-commons
+
+WORKDIR /app
+COPY services/reporting-service/pyproject.toml ./
+COPY services/reporting-service/app ./app
+
+RUN pip install --no-cache-dir .
+
+EXPOSE 8091
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8091"]

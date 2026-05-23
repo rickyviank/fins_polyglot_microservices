@@ -1,0 +1,206 @@
+{
+  "consumer": {
+    "name": "reporting-service"
+  },
+  "provider": {
+    "name": "audit-log-service"
+  },
+  "interactions": [
+    {
+      "description": "a report export audit event",
+      "providerState": "audit-log-service is running",
+      "request": {
+        "method": "post",
+        "path": "/v1/events",
+        "body": {
+          "event_id": "some-uuid",
+          "occurred_at": "2024-06-15T12:00:00+00:00",
+          "service": "reporting-service",
+          "actor": "ops",
+          "action": "report.export",
+          "resource_type": "report",
+          "resource_id": "daily-2024-06-15",
+          "outcome": "success",
+          "metadata": {
+            "format": "json"
+          }
+        },
+        "matchingRules": {
+          "$.body.event_id": {
+            "match": "type"
+          },
+          "$.body.occurred_at": {
+            "match": "type"
+          },
+          "$.body.resource_id": {
+            "match": "type"
+          },
+          "$.body.metadata": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+        },
+        "body": {
+          "event_id": "some-uuid"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a SAR report export audit event",
+      "providerState": "audit-log-service is running",
+      "request": {
+        "method": "post",
+        "path": "/v1/events",
+        "body": {
+          "event_id": "uuid-val",
+          "occurred_at": "2024-06-15T12:00:00+00:00",
+          "service": "reporting-service",
+          "actor": "ops",
+          "action": "report.export",
+          "resource_type": "report",
+          "resource_id": "sar-2024-06-01",
+          "outcome": "success",
+          "metadata": {
+            "format": "csv"
+          }
+        },
+        "matchingRules": {
+          "$.body.event_id": {
+            "match": "type"
+          },
+          "$.body.occurred_at": {
+            "match": "type"
+          },
+          "$.body.resource_id": {
+            "match": "type"
+          },
+          "$.body.metadata": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+        },
+        "body": {
+          "event_id": "uuid-val"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a CTR report export audit event",
+      "providerState": "audit-log-service is running",
+      "request": {
+        "method": "post",
+        "path": "/v1/events",
+        "body": {
+          "event_id": "uuid-val",
+          "occurred_at": "2024-06-15T12:00:00+00:00",
+          "service": "reporting-service",
+          "actor": "ops",
+          "action": "report.export",
+          "resource_type": "report",
+          "resource_id": "ctr-2024-07-04",
+          "outcome": "success",
+          "metadata": {
+            "format": "json"
+          }
+        },
+        "matchingRules": {
+          "$.body.event_id": {
+            "match": "type"
+          },
+          "$.body.occurred_at": {
+            "match": "type"
+          },
+          "$.body.resource_id": {
+            "match": "type"
+          },
+          "$.body.metadata": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+        },
+        "body": {
+          "event_id": "uuid-val"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a failed report export audit event",
+      "providerState": "audit-log-service is running",
+      "request": {
+        "method": "post",
+        "path": "/v1/events",
+        "body": {
+          "event_id": "uuid-val",
+          "occurred_at": "2024-06-15T12:00:00+00:00",
+          "service": "reporting-service",
+          "actor": "ops",
+          "action": "report.export",
+          "resource_type": "report",
+          "resource_id": "daily-2024-01-01",
+          "outcome": "failure",
+          "metadata": {
+          }
+        },
+        "matchingRules": {
+          "$.body.event_id": {
+            "match": "type"
+          },
+          "$.body.occurred_at": {
+            "match": "type"
+          },
+          "$.body.resource_id": {
+            "match": "type"
+          },
+          "$.body.metadata": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+        },
+        "body": {
+          "event_id": "uuid-val"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}
