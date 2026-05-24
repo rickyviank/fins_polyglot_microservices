@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  audit-log-service:
+    build:
+      context: ../../
+      dockerfile: services/audit-log-service/Dockerfile
+    ports:
+      - "18089:8089"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8089/v1/events/_health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  fraud-detection-service:
+    build:
+      context: ../../
+      dockerfile: services/fraud-detection-service/Dockerfile
+    ports:
+      - "18088:8088"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8088/v1/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  reporting-service:
+    build:
+      context: ../../
+      dockerfile: services/reporting-service/Dockerfile
+    ports:
+      - "18091:8091"
+    environment:
+      AUDIT_SERVICE_URL: "http://audit-log-service:8089"
+      FRAUD_SERVICE_URL: "http://fraud-detection-service:8088"
+    depends_on:
+      audit-log-service:
+        condition: service_healthy
+      fraud-detection-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8091/v1/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10

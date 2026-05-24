@@ -1,0 +1,250 @@
+{
+  "consumer": {
+    "name": "reporting-service"
+  },
+  "interactions": [
+    {
+      "description": "a request to log a failure audit event",
+      "pending": false,
+      "request": {
+        "body": {
+          "content": {
+            "action": "report.export",
+            "actor": "ops",
+            "event_id": null,
+            "metadata": {},
+            "occurred_at": "2026-01-01T00:00:00+00:00",
+            "outcome": "failure",
+            "resource_id": "unknown-report",
+            "resource_type": "report",
+            "service": "reporting-service"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "generators": {
+          "body": {
+            "$.event_id": {
+              "type": "Uuid"
+            }
+          }
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.action": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.actor": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.event_id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "^([0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}|[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12})$"
+                }
+              ]
+            },
+            "$.metadata": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.occurred_at": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.outcome": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "^(success|failure|denied)$"
+                }
+              ]
+            },
+            "$.resource_id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.resource_type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.service": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "method": "POST",
+        "path": "/v1/events"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "action": "report.export",
+            "actor": "ops",
+            "event_id": null,
+            "metadata": {},
+            "occurred_at": "2026-01-01T00:00:00+00:00",
+            "outcome": "failure",
+            "received_at": "2026-01-01T00:00:00+00:00",
+            "resource_id": "unknown-report",
+            "resource_type": "report",
+            "service": "reporting-service"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "generators": {
+          "body": {
+            "$.event_id": {
+              "type": "Uuid"
+            }
+          }
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.action": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.actor": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.event_id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "^([0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}|[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12})$"
+                }
+              ]
+            },
+            "$.metadata": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.occurred_at": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.outcome": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "^(success|failure|denied)$"
+                }
+              ]
+            },
+            "$.received_at": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.resource_id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.resource_type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.service": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 201
+      },
+      "type": "Synchronous/HTTP"
+    }
+  ],
+  "metadata": {
+    "pactRust": {
+      "ffi": "0.5.4",
+      "models": "1.3.11"
+    },
+    "pactSpecification": {
+      "version": "4.0"
+    }
+  },
+  "provider": {
+    "name": "audit-log-service"
+  }
+}
