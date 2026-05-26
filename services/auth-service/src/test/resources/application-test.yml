@@ -1,0 +1,13 @@
+server:
+  port: 0
+
+finspoly:
+  audit:
+    url: http://localhost:19999
+  jwt:
+    secret: test-secret-for-unit-tests
+    issuer: finspoly-auth-test
+    ttl-seconds: 3600
+    refresh-ttl-seconds: 86400
+  debug:
+    token: "test-debug-token"
